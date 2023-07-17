@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:location/location.dart';
 import 'package:http/http.dart' as http;
 
+// ignore: constant_identifier_names
 const GOOGLE_API_KEY = 'AIzaSyBUiuwrNTz8wlBhtA_T36TlTSv7k6YZ-mw';
 
 class LocationService {

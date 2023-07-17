@@ -11,9 +11,9 @@ class TaskList extends StatelessWidget {
   Widget build(BuildContext context) {
     return StreamBuilder(
       stream: DatabaseService().tasks,
-      builder: (context, AsyncSnapshot<List<Task>> snapshot) {
+      builder: (context, AsyncSnapshot<List> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(
+          return Center(
             child: CircularProgressIndicator(),
           );
         }
@@ -27,25 +27,29 @@ class TaskList extends StatelessWidget {
         }
 
         if (snapshot.data != null) {
-          final taskList = snapshot.data as List<Task>;
+          final taskList = snapshot.data as List<Tasks>;
           return ListView.builder(
             itemCount: taskList.length,
             itemBuilder: (ctx, index) {
               return Card(
                 color: taskList[index].complated ? Colors.grey : null,
                 child: ListTile(
-                  onTap: () => Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (builder) => TaskDetalScreen(
-                        task: taskList[index],
-                      ),
-                    ),
-                  ),
+                  onTap: taskList[index].complated
+                      ? null
+                      : () => Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (builder) => TaskDetalScreen(
+                                task: taskList[index],
+                              ),
+                            ),
+                          ),
                   leading: IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      DatabaseService().toggleCompleted(taskList[index]);
+                    },
                     icon: taskList[index].complated
-                        ? Icon(Icons.check_outlined)
-                        : Icon(Icons.circle_outlined),
+                        ? const Icon(Icons.check_outlined)
+                        : const Icon(Icons.circle_outlined),
                   ),
                   title: Text(taskList[index].title),
                   subtitle: taskList[index].dueDate == null

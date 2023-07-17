@@ -8,14 +8,14 @@ import 'package:my_task/widgets/map_widget.dart';
 class TaskDetalScreen extends StatefulWidget {
   const TaskDetalScreen({super.key, required this.task});
 
-  final Task task;
+  final Tasks task;
 
   @override
   State<TaskDetalScreen> createState() => _TaskDetalScreenState();
 }
 
 class _TaskDetalScreenState extends State<TaskDetalScreen> {
-  Task _task = Task(id: '', title: '');
+  Tasks _task = Tasks(id: '', title: '');
   final _taskTitleController = TextEditingController();
   final _today = DateTime.now();
 
@@ -40,9 +40,34 @@ class _TaskDetalScreenState extends State<TaskDetalScreen> {
         title: const Text("Detail Task"),
         actions: [
           IconButton(
-            onPressed: () {
-              DatabaseService().deleteTask(_task.id);
-              Navigator.of(context).pop();
+            onPressed: () async {
+              bool? isDelete = await showDialog(
+                  context: context,
+                  builder: (builder) {
+                    return AlertDialog(
+                      title: const Text("Hapus Task"),
+                      content: const Text("Yakin untuk menghapus task ?"),
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop(false);
+                          },
+                          child: const Text("Tidak"),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop(true);
+                          },
+                          child: const Text("Iya"),
+                        ),
+                      ],
+                    );
+                  });
+              if (isDelete != null && isDelete) {
+                DatabaseService().deleteTask(_task.id);
+                // ignore: use_build_context_synchronously
+                Navigator.of(context).pop();
+              }
             },
             icon: const Icon(
               Icons.delete,

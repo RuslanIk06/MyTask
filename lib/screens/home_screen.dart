@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:my_task/widgets/new_task.dart';
-import 'package:my_task/widgets/task_list.dart';
+import 'package:my_task/screens/all_task_screen.dart';
+import 'package:my_task/screens/profile_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -11,35 +11,31 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  int _selectedIndex = 0;
+  static const List<Widget> _widget = [
+    AllTaskScreen(),
+    ProfileScreen(),
+  ];
+
+  void onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
       child: Scaffold(
-        appBar: AppBar(
-          title: const Text('MyTask'),
-          actions: [
-            IconButton(
-              onPressed: () {
-                FirebaseAuth.instance.signOut();
-              },
-              icon: const Icon(Icons.logout),
-            ),
+        body: _widget[_selectedIndex],
+        bottomNavigationBar: BottomNavigationBar(
+          currentIndex: _selectedIndex,
+          onTap: onItemTapped,
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(icon: Icon(Icons.task), label: "All Task"),
+            BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile"),
           ],
-        ),
-        body: Padding(
-          padding: const EdgeInsets.all(16),
-          // ignore: avoid_unnecessary_containers
-          child: Container(
-            child: const Column(
-              children: [
-                Expanded(
-                  child: TaskList(),
-                ),
-                NewTask(),
-              ],
-            ),
-          ),
         ),
       ),
     );

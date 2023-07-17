@@ -15,7 +15,7 @@ class MapScreen extends StatefulWidget {
 }
 
 class _MapScreenState extends State<MapScreen> {
-  LatLng _pickedLocation = LatLng(-6.1754, 106.8272);
+  LatLng _pickedLocation = const LatLng(-6.1754, 106.8272);
 
   String _address = '';
 
@@ -40,8 +40,9 @@ class _MapScreenState extends State<MapScreen> {
       const Duration(microseconds: 500),
     );
 
-    if (moveCamera)
+    if (moveCamera) {
       _googleMapController.moveCamera(CameraUpdate.newLatLng(position));
+    }
 
     setState(() {
       _pickedLocation = position;
@@ -78,7 +79,7 @@ class _MapScreenState extends State<MapScreen> {
             ),
             markers: {
               Marker(
-                markerId: MarkerId('pickedLocation'),
+                markerId: const MarkerId('pickedLocation'),
                 position: _pickedLocation,
               ),
             },

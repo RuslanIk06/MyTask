@@ -1,4 +1,4 @@
-class Task {
+class Tasks {
   final String id;
   final String title;
   final String note;
@@ -7,7 +7,7 @@ class Task {
   final double latitude;
   final double longitude;
 
-  Task({
+  Tasks({
     required this.id,
     required this.title,
     this.note = '',
@@ -17,7 +17,7 @@ class Task {
     this.longitude = 0.0,
   });
 
-  Task copyWith(
+  Tasks copyWith(
       {String? id,
       String? title,
       String? note,
@@ -32,7 +32,7 @@ class Task {
     } else {
       dueDate = this.dueDate;
     }
-    return Task(
+    return Tasks(
       id: id ?? this.id,
       title: title ?? this.title,
       note: note ?? this.note,
