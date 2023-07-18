@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:my_task/screens/all_task_screen.dart';
 import 'package:my_task/screens/profile_screen.dart';

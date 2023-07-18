@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:my_task/widgets/new_task.dart';
 import 'package:my_task/widgets/task_list.dart';
